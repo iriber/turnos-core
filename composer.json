@@ -1,0 +1,23 @@
+{
+    "autoload": {
+        "psr-0": {
+            "Turnos\\Core": "src/main/php",
+            "Turnos\\Core\\Test": "src/test/php",
+            "Cose": "/home/bernardo/workspace_php/cose/src/main/php",
+        	"Cose\\Security": "/home/bernardo/workspace_php/cose_security/src/main/php",
+        	"Cose\\Crud": "/home/bernardo/workspace_php/cose_crud/src/main/php",
+        	"Cose\\Observer": "/home/bernardo/workspace_php/cose_observer/src/main/php"
+        	
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/apache/logging-log4php"
+        }
+    ],
+    "require": {
+        "apache/log4php": "2.3.0",
+        "doctrine/orm": "*"
+    }
+}

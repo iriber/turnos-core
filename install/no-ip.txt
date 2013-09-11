@@ -1,0 +1,46 @@
+ sudo apt-get install build-essential
+
+ sudo apt-get install w
+
+ sudo apt-get install gcc
+
+ cd /usr/local/src/
+ 
+ wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+ 
+ tar xf noip-duc-linux.tar.gz
+ 
+ cd noip-2.1.9-1/
+ 
+ make install
+
+/*******************************************************************************/
+ 
+Primero: nos descargamos el cliente a nuestra máquina y lo descomprimimos
+
+wget http://www.no-ip.com/client/linux/noip-duc-linux.tar.gz
+tar xzf noip-duc-linux.tar.gz
+
+Segundo: compilamos e instalamos
+
+sudo make
+sudo make install
+
+Tercero: configuramos los parámetros del servicio
+
+sudo noip2 -C
+
+Las preguntas serán del tipo correo electrónico, contraseña, etc. Deberemos habernos registrado antes en el sitio de NoIP.
+
+Cuarto: creamos un pequeño script (/etc/init.d/noip2) para llamar al servicio en el arranque, con el siguiente contenido
+
+#! /bin/sh
+sudo /usr/local/bin/noip2
+
+Quinto: le asignamos permisos de ejecución al script
+
+sudo chmod +x /etc/init.d/noip2
+
+Sexto: creamos un enlace al script para adecuarlo a System V
+
+sudo update-rc.d noip2 defaults
