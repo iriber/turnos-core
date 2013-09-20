@@ -92,7 +92,6 @@ class Cliente extends Entity {
      **/
 	private $localidad;
 	 
-	
 	/** 
 	 * @Column(type="date", nullable=true)
 	 *  
@@ -103,13 +102,18 @@ class Cliente extends Entity {
 	 * @Column(type="date") 
 	 **/
 	private $fechaAlta;
-	
+
+	/**
+	 * @Column(type="string", nullable=true)
+	 */
+	private $observaciones;
 	
 	/** 
 	 * @Column(type="string", nullable=true)
 	 *  
 	 **/
 	private $nroHistoriaClinica;
+	
 	
 	public function __construct(){
 
@@ -345,5 +349,15 @@ class Cliente extends Entity {
 			$edad = "";
 		
     	return $edad;
+	}
+
+	public function getObservaciones()
+	{
+	    return $this->observaciones;
+	}
+
+	public function setObservaciones($observaciones)
+	{
+	    $this->observaciones = $observaciones;
 	}
 }

@@ -5,6 +5,7 @@ namespace Turnos\Core\model;
 use Cose\model\impl\Entity;
 
 use Turnos\Core\model\Profesional;
+use Cose\utils\Logger;
 
 /**
  * Define un rango de horarios y fechas 
@@ -94,12 +95,37 @@ class Ausencia extends Entity{
 		
 		$disponible = false;
 		
-		if(!empty($this->horaDesde) )
-			$disponible = $this->getHoraDesde() > $hora;
+		Logger::log("chequeando disponibilidad para " . $hora->format("Ymd H:i") , __CLASS__);
+		
+		$disponibleDesde = false;
+		$disponibleHasta = false;
+		
+		if(!empty($this->horaDesde) ){
 			
-		if(!empty($this->horaHasta) )
-			$disponible = $this->getHoraHasta() <= $hora;
+			$disponibleDesde = $this->getHoraDesde() > $hora;
 			
+			Logger::log("hora desde: " . $this->getHoraDesde()->format("Ymd H:i"), __CLASS__);
+			
+			if($disponibleDesde)
+				Logger::log("está disponible para hora desde", __CLASS__);
+			else 
+				Logger::log("no está disponible para hora desde", __CLASS__);	
+			
+			
+		}
+		
+		
+		if(!empty($this->horaHasta) ){
+			$disponibleHasta = $this->getHoraHasta() <= $hora;
+			Logger::log("hora hasta: " . $this->getHoraHasta()->format("Ymd H:i"), __CLASS__);
+			if($disponibleHasta)
+				Logger::log("está disponible para hora hasta", __CLASS__);
+			else	
+				Logger::log("no está disponible para hora hasta", __CLASS__);
+		}
+		
+		$disponible = $disponibleDesde || $disponibleHasta;
+		
 		return $disponible ;
 			
 	}
