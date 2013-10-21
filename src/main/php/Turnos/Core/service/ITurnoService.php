@@ -19,11 +19,20 @@ interface ITurnoService extends ICrudService {
 		
 	function iniciarTurno($turnoOid);
 	
+	/**
+	 * se finaliza un turno
+	 * @CoseSecurity( permission="finalizar_turno")  
+	 * @param $turnoOid
+	 */
 	function finalizarTurno($turnoOid);
-	
+
 	function asignarTurno($turnoOid);
 	
 	function turnoEnSala($turnoOid);
-	
+
+	/**
+	 * se recuperan los turnos de un cliente.
+	 * @param Cliente $cliente
+	 */
 	function getTurnosCliente( Cliente $cliente);
 }

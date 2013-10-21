@@ -11,12 +11,14 @@ use Turnos\Core\criteria\ClienteCriteria;
 
 class ListClientesTest extends GenericTest{
 	
-	
+	/**
+	 * @Security( permission="listar_clientes" )
+	 */
 	public function test(){
 
 		
 		$securityContext =  SecurityContext::getInstance();
-		$securityContext->login( "fucci", "4");
+		$securityContext->login( "bernardo", "4");
 		
 		$service = ServiceFactory::getClienteService();
 		

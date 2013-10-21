@@ -15,11 +15,13 @@ use Cose\exception\ServiceException;
 use Cose\exception\ServiceNoResultException;
 use Cose\exception\ServiceNonUniqueResultException;
 use Cose\exception\DuplicatedEntityException;
+
 /**
  * servicio para cliente
  *  
+ * @Cose\Security\annotation\Secured( permission='clientes' )
+ * 
  * @author bernardo
- *
  */
 class ClienteServiceImpl extends CrudService implements IClienteService {
 	
@@ -135,12 +137,5 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 	
 	function validateOnDelete( $oid ){}
 	
-	/**
-	 * @authorize("hasRole('ROLE_ADMIN')" )
-	 *
-	public function getList($criteria){
-		SecurityContext::getInstance()->canExecute( __METHOD__ );
-		return parent::getList($criteria);
-	}*/
 	
 }	
