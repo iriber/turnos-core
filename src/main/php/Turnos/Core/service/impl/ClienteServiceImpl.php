@@ -19,10 +19,11 @@ use Cose\exception\DuplicatedEntityException;
 /**
  * servicio para cliente
  *  
- * @Cose\Security\annotation\Secured( permission='clientes' )
+ * 
  * 
  * @author bernardo
  */
+//@Cose\Security\annotation\Secured( permission='clientes' )
 class ClienteServiceImpl extends CrudService implements IClienteService {
 	
 	protected function getDAO(){
