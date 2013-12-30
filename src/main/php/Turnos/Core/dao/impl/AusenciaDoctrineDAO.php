@@ -135,6 +135,7 @@ class AusenciaDoctrineDAO extends CrudDAO implements IAusenciaDAO{
 			$queryBuilder->andWhere( "a.fechaHasta = '" . $fechaHasta->format("Y-m-d") . "'");
 		}
 		
+		$profesional = $criteria->getProfesional();
 		if( !empty($profesional) && $profesional!=null){
 			$profesionalOid = $profesional->getOid();
 			if(!empty($profesionalOid))
