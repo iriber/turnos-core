@@ -6,8 +6,9 @@ use Cose\model\impl\Entity;
 use Turnos\Core\model\Cliente,
 	Turnos\Core\model\Profesional,
 	Turnos\Core\model\ObraSocial,
-	Turnos\Core\model\EstadoTurno;
-
+	Turnos\Core\model\EstadoTurno,
+	Turnos\Core\model\Prioridad;
+	
 /**
  * Turno
  * 
@@ -82,14 +83,26 @@ class Turno extends Entity {
 	 */
 	private $nroObraSocial;
 
+	/**
+	 * @Column(type="integer")
+	 * @var Prioridad
+	 */
+	private $prioridad;
+	
 
+	/**
+	 * @Column(type="integer")
+	 * @var integer
+	 */
+	private $duracion;
+	
 	public function __construct(){
 		 
 		$this->profesional = null;
 		$this->cliente = null;
 		$this->estado = EstadoTurno::Asignado;
 		$this->obraSocial = null; 
-		
+		$this->duracion = 15;
 	}
 
 
@@ -206,5 +219,25 @@ class Turno extends Entity {
 	    $this->nombre = $nombre;
 	}
 
+
+	public function getPrioridad()
+	{
+	    return $this->prioridad;
+	}
+
+	public function setPrioridad($prioridad)
+	{
+	    $this->prioridad = $prioridad;
+	}
+
+	public function getDuracion()
+	{
+	    return $this->duracion;
+	}
+
+	public function setDuracion($duracion)
+	{
+	    $this->duracion = $duracion;
+	}
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 
-include_once '../conf/init.php';
-
+//include_once '../conf/init.php';
+include_once   dirname(__DIR__). '/vendor/autoload.php';
 
 $classLoader = new \Doctrine\Common\ClassLoader('Entities', __DIR__);
 $classLoader->register();
@@ -9,9 +9,10 @@ $classLoader->register();
 $classLoader = new \Doctrine\Common\ClassLoader('Proxies', __DIR__);
 $classLoader->register();
 
+$pathEntities = array( dirname(__DIR__) . "/src/main/php/Turnos/Core/model" );
 
 $isDevMode = true;
-$config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration( explode(",", CDT_ENTITIES_PATH), $isDevMode);
+$config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration( $pathEntities, $isDevMode);
 
 $connectionOptions = array(
       'driver'   => 'pdo_mysql',

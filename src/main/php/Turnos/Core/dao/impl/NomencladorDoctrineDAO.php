@@ -42,6 +42,11 @@ class NomencladorDoctrineDAO extends CrudDAO implements INomencladorDAO{
 
 	protected function enhanceQueryBuild(QueryBuilder $queryBuilder, ICriteria $criteria){
 	
+		$oid = $criteria->getOidNotEqual();
+		if( !empty($oid) ){
+			$queryBuilder->andWhere( "n.oid <> $oid");
+		}
+		
 		$codigo = $criteria->getCodigo();
 		if( !empty($codigo) ){
 			$queryBuilder->where("n.codigo = '$codigo'");
@@ -51,6 +56,12 @@ class NomencladorDoctrineDAO extends CrudDAO implements INomencladorDAO{
 		if( !empty($nombre) ){
 			$queryBuilder->where("n.nombre like '%$nombre%'");
 		}
+		
+		$nombreEq = $criteria->getNombreEqual();
+		if( !empty($nombreEq) ){
+			$queryBuilder->andWhere("n.nombre = '$nombreEq'");
+		}
+		
 	}
 	
 	

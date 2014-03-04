@@ -11,6 +11,8 @@ use Cose\criteria\impl\Criteria;
  */
 class ObraSocialCriteria extends Criteria{
 
+	private $oidNotEqual;
+	
 	private $nombre;
 	
 	private $codigo;
@@ -45,6 +47,16 @@ class ObraSocialCriteria extends Criteria{
 	public function setNombreEqual($nombreEqual)
 	{
 	    $this->nombreEqual = $nombreEqual;
+	}
+
+	public function getOidNotEqual()
+	{
+	    return $this->oidNotEqual;
+	}
+
+	public function setOidNotEqual($oidNotEqual)
+	{
+	    $this->oidNotEqual = $oidNotEqual;
 	}
 }
 

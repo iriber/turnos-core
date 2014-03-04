@@ -35,4 +35,10 @@ interface ITurnoService extends ICrudService {
 	 * @param Cliente $cliente
 	 */
 	function getTurnosCliente( Cliente $cliente);
+	
+	/**
+	 * retorna los turnos de la fecha indicando con estado "atendiendo"
+	 * @param $fecha
+	 */
+	function getTurnosAtendiendo( \DateTime $fecha );
 }

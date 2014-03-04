@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\service;
 
+use Turnos\Core\service\impl\EspecialidadServiceImpl;
+
 use Turnos\Core\service\impl\AusenciaServiceImpl;
 
 use Turnos\Core\service\impl\HorarioServiceImpl;
@@ -99,5 +101,13 @@ class ServiceFactory {
 	public static function getTurnoService(){
 	
 		return new TurnoServiceImpl();	
+	}
+
+	/**
+	 * @return IEspecialidadService
+	 */
+	public static function getEspecialidadService(){
+	
+		return new EspecialidadServiceImpl();	
 	}
 }

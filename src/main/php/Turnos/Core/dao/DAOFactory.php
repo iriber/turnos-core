@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\dao;
 
+use Turnos\Core\dao\impl\EspecialidadDoctrineDAO;
+
 use Turnos\Core\dao\impl\AusenciaDoctrineDAO;
 
 use Turnos\Core\dao\impl\HorarioDoctrineDAO;
@@ -120,5 +122,14 @@ class DAOFactory {
 	
 		return new TurnoDoctrineDAO();	
 	}
+
+	/**
+	 * DAO para Especialidad.
+	 * 
+	 * @return IEspecialidadDAO
+	 */
+	public static function getEspecialidadDAO(){
 	
+		return new EspecialidadDoctrineDAO();	
+	}	
 }

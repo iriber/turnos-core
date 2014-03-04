@@ -42,6 +42,13 @@ class ObraSocialDoctrineDAO extends CrudDAO implements IObraSocialDAO{
 
 	protected function enhanceQueryBuild(QueryBuilder $queryBuilder, ICriteria $criteria){
 		
+		
+		$oid = $criteria->getOidNotEqual();
+		if( !empty($oid) ){
+			$queryBuilder->andWhere( "os.oid <> $oid");
+		}
+		
+		
 		$nombre = $criteria->getNombre();
 		if( !empty($nombre) ){
 			$queryBuilder->andWhere("os.nombre like '%$nombre%'");

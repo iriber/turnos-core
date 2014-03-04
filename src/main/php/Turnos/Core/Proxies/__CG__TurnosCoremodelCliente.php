@@ -64,10 +64,10 @@ class Cliente extends \Turnos\Core\model\Cliente implements \Doctrine\ORM\Proxy\
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'nombre', 'apellido', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'sexo', 'obraSocial', 'nroObraSocial', 'localidad', 'fechaNacimiento', 'fechaAlta', 'nroHistoriaClinica');
+            return array('__isInitialized__', 'nombre', 'apellido', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'sexo', 'obraSocial', 'nroObraSocial', 'localidad', 'fechaNacimiento', 'fechaAlta', 'observaciones', 'nroHistoriaClinica');
         }
 
-        return array('__isInitialized__', 'nombre', 'apellido', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'sexo', 'obraSocial', 'nroObraSocial', 'localidad', 'fechaNacimiento', 'fechaAlta', 'nroHistoriaClinica');
+        return array('__isInitialized__', 'nombre', 'apellido', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'sexo', 'obraSocial', 'nroObraSocial', 'localidad', 'fechaNacimiento', 'fechaAlta', 'observaciones', 'nroHistoriaClinica');
     }
 
     /**
@@ -567,6 +567,28 @@ class Cliente extends \Turnos\Core\model\Cliente implements \Doctrine\ORM\Proxy\
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEdad', array());
 
         return parent::getEdad();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getObservaciones()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getObservaciones', array());
+
+        return parent::getObservaciones();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setObservaciones($observaciones)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setObservaciones', array($observaciones));
+
+        return parent::setObservaciones($observaciones);
     }
 
     /**

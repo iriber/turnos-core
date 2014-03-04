@@ -50,7 +50,10 @@ class ObraSocialServiceImpl extends CrudService implements IObraSocialService {
 			
 	}
 	
-	function validateOnUpdate( $entity ){}
+	function validateOnUpdate( $entity ){
+	
+		$this->validateOnAdd($entity);
+	}
 	
 	function validateOnDelete( $oid ){}
 
@@ -60,10 +63,11 @@ class ObraSocialServiceImpl extends CrudService implements IObraSocialService {
 	 * Retorna true si existe una obra social dado un nombre 
 	 * @param string $nombre
 	 */
-	private function existsByNombre( $nombre ){
+	private function existsByNombre( $nombre, $oid=null ){
 	
 		$criteria = new ObraSocialCriteria();
 		$criteria->setNombreEqual($nombre);
+		$criteria->setOidNotEqual($oid);
 	
 		$exists = false;
 		
@@ -91,10 +95,11 @@ class ObraSocialServiceImpl extends CrudService implements IObraSocialService {
 	 * Retorna true si existe una obra social dado un código
 	 * @param string $nombre
 	 */
-	private function existsByCodigo( $codigo ){
+	private function existsByCodigo( $codigo, $oid=null ){
 	
 		$criteria = new ObraSocialCriteria();
 		$criteria->setCodigo($codigo);
+		$criteria->setOidNotEqual($oid);
 	
 		$exists = false;
 		

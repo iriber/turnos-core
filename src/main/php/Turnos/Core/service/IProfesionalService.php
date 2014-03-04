@@ -1,6 +1,10 @@
 <?php
 namespace Turnos\Core\service;
 
+use Turnos\Core\model\Profesional;
+
+use Turnos\Core\model\Especialidad;
+
 use Cose\Crud\service\ICrudService;
 
 use Cose\Security\model\User;
@@ -14,4 +18,8 @@ use Cose\Security\model\User;
 interface IProfesionalService extends ICrudService {
 
 	function getProfesionalByUser(User $user);
+	
+	function getProfesionalesByEspecialidad(Especialidad $especialidad);
+	
+	function hasEspecialidad( Profesional $profesional, Especialidad $especialidad );
 }

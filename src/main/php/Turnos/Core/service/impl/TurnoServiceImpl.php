@@ -282,4 +282,18 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 		return $turno;
 	}
 	
+	function getTurnosAtendiendo( \DateTime $fecha ){
+		
+		try {
+        	
+        	return $this->getDAO()->getTurnosAtendiendo($fecha);
+        	
+        } catch (\Exception $e) {
+        	
+        	throw new ServiceException( $e->getMessage() );
+        	
+        }
+	}
+	
+	
 }

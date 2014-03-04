@@ -16,4 +16,6 @@ use Turnos\Core\model\Profesional;
 interface ITurnoDAO extends ICrudDAO {
 
 	function getTurnosDelDia($dia, Profesional $profesional);
+	
+	function getTurnosAtendiendo($fecha);
 }

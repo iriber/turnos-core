@@ -27,14 +27,14 @@ class ResumenHistoriaClinica extends Entity {
 	private $fecha;
 
 	/**
-     * @ManyToOne(targetEntity="Cliente",cascade={"none"})
+     * @ManyToOne(targetEntity="Cliente",cascade={"merge"})
      * @JoinColumn(name="cliente_oid", referencedColumnName="oid")
      * @var Cliente
      **/
 	private $cliente;
 
 	/**
-     * @ManyToOne(targetEntity="Profesional",cascade={"none"})
+     * @ManyToOne(targetEntity="Profesional",cascade={"merge"})
      * @JoinColumn(name="profesional_oid", referencedColumnName="oid")
      * @var Profesional
      **/

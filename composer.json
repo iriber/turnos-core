@@ -21,7 +21,4 @@
         "doctrine/orm": "2.4.0",
         "niktux/addendum": "dev-master"
     }
-    "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-    }
 }

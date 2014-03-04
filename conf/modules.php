@@ -8,7 +8,7 @@
  * 
  */
 
-use Cose\conf\CoseSetup; 
+use Cose\conf\CoseConfig; 
 
 //setlocale(LC_ALL, 'Portuguese_Portugal.1252');
 setlocale(LC_ALL, "es_AR.UTF-8");
@@ -31,10 +31,10 @@ require APP_HOME . 'vendor/autoload.php';
 
 
 //se inicializan los módulos básicos .
-CoseSetup::initialize(APP_HOME, CDT_HOME);
+CoseConfig::initialize(APP_HOME, CDT_HOME);
 
 //especificamos los paths donde se encuentran los modelos para el mapeo.
-Cose\conf\CoseSetup::initializeEntitiesClasspath( 
+Cose\conf\CoseConfig::initializeEntitiesClasspath( 
 			array( //CDT_HOME . "Cose/model",
 					//CDT_HOME . "Cose\Security/model",
 				   APP_HOME. "/model"	) );

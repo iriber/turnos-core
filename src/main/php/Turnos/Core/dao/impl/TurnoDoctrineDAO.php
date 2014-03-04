@@ -118,7 +118,7 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 		
 	}
 	
-	public function getTurnosDelDia($fecha, Profesional $profesional){
+	public function getTurnosDelDia($fecha, Profesional $profesional=null){
 	
 		try {
 			
@@ -130,14 +130,70 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 					->leftJoin('t.cliente', 'c')
 					->leftJoin('t.obraSocial', 'os');
 	   
-					
-			$qb->where( "p.oid= :oid ");
-			$qb->andWhere( "t.fecha= :fecha " );
+			$qb->where( "t.fecha= :fecha " );
+			
+			if( $profesional!=null)
+				$qb->andWhere( "p.oid= :oid ");
+			
 			$qb->orderby( "t.hora", "ASC" );
-			$qb->setParameter( "oid", $profesional->getOid() );
+			
 			$qb->setParameter( "fecha", $fecha->format("Y-m-d") );
+			if( $profesional!=null)
+				$qb->setParameter( "oid", $profesional->getOid() );
 			
 					
+			$q = $qb->getQuery();
+			
+			$r = $q->getResult();
+		
+			//\Logger::getLogger(__CLASS__)->info("size: " . count($r) );
+			
+			return $r;
+			
+		} catch (\Doctrine\ORM\Query\QueryException $e) {
+			
+			throw new DAOException( $e->getMessage() );
+			
+		} catch (\Exception $e) {
+			
+			throw new DAOException( $e->getMessage() );
+			
+		}
+	
+		
+	}
+	
+
+	/**
+	 * Retorna los turnos que están en estado "atendiendo"
+	 * para la fecha dada, uno por profesional.
+	 * Si un profesional tiene más de un turno es estado "atendiendo",
+	 * retornará el último de ellos.
+	 * 
+	 * @param Datetime $fecha
+	 * @throws DAOException
+	 */
+	public function getTurnosAtendiendo($fecha){
+	
+		try {
+			
+			$qb = $this->getEntityManager()->createQueryBuilder();
+			
+			$qb->select(array('t', 'p', 'c', 'os'))
+	   				->from( $this->getClazz(), "t")
+					->leftJoin('t.profesional', 'p')
+					->leftJoin('t.cliente', 'c')
+					->leftJoin('t.obraSocial', 'os');
+	   
+			$qb->where( "t.fecha= :fecha " );
+			
+			if( $profesional!=null)
+				$qb->andWhere( "p.oid= :oid ");
+			
+			$qb->orderby( "t.hora", "ASC" );
+			
+			$qb->setParameter( "fecha", $fecha->format("Y-m-d") );
+			
 			$q = $qb->getQuery();
 			
 			$r = $q->getResult();

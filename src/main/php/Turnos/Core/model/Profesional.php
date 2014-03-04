@@ -70,6 +70,14 @@ class Profesional extends Entity {
      **/
     private $user;
     
+    /**
+     * @ManyToMany(targetEntity="Especialidad")
+     * @JoinTable(name="trn_profesional_especialidad",
+     *      joinColumns={@JoinColumn(name="profesional_oid", referencedColumnName="oid")},
+     *      inverseJoinColumns={@JoinColumn(name="especialidad_oid", referencedColumnName="oid")}
+     *      )
+     */
+    private $especialidades;
     
 	public function __construct(){
 		 
@@ -222,5 +230,37 @@ class Profesional extends Entity {
     {
         $this->user = $user;
     }
+    
+    public function addEspecialidad( Especialidad $especialidad ){
+    	
+    	$this->especialidades[] = $especialidad;
+    }
+
+	public function getEspecialidades()
+	{
+	    return $this->especialidades;
+	}
+
+	public function setEspecialidades($especialidades)
+	{
+	    $this->especialidades = $especialidades;
+	}
+	
+	public function hasEspecialidadByOid($oid){
+	
+		$ok = false;
+		
+		if($this->getEspecialidades() == null )
+			return false;
+		
+		foreach ($this->getEspecialidades() as $especialidad) {
+			$ok = ($especialidad->getOid() == $oid);
+			if( $ok )
+				break;
+		}
+		
+		return $ok;
+		
+	}
 }
 ?>

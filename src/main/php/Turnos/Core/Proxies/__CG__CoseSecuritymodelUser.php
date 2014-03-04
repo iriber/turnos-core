@@ -64,10 +64,10 @@ class User extends \Cose\Security\model\User implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'username', 'password', 'name', 'email', 'groups');
+            return array('__isInitialized__', 'username', 'password', 'name', 'email', 'groups', 'lastLogin', 'loginFrom', 'logged');
         }
 
-        return array('__isInitialized__', 'username', 'password', 'name', 'email', 'groups');
+        return array('__isInitialized__', 'username', 'password', 'name', 'email', 'groups', 'lastLogin', 'loginFrom', 'logged');
     }
 
     /**
@@ -264,6 +264,17 @@ class User extends \Cose\Security\model\User implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
+    public function hasPermissionByName($name)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasPermissionByName', array($name));
+
+        return parent::hasPermissionByName($name);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
 
@@ -303,6 +314,72 @@ class User extends \Cose\Security\model\User implements \Doctrine\ORM\Proxy\Prox
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', array($email));
 
         return parent::setEmail($email);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLastLogin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLastLogin', array());
+
+        return parent::getLastLogin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLastLogin($lastLogin)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLastLogin', array($lastLogin));
+
+        return parent::setLastLogin($lastLogin);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLoginFrom()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLoginFrom', array());
+
+        return parent::getLoginFrom();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLoginFrom($loginFrom)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLoginFrom', array($loginFrom));
+
+        return parent::setLoginFrom($loginFrom);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getLogged()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getLogged', array());
+
+        return parent::getLogged();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setLogged($logged)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setLogged', array($logged));
+
+        return parent::setLogged($logged);
     }
 
     /**

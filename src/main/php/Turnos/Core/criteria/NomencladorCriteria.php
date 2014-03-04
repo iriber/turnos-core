@@ -11,8 +11,11 @@ use Cose\criteria\impl\Criteria;
  */
 class NomencladorCriteria extends Criteria{
 
+
+	private $oidNotEqual;
 	private $codigo;
 	private $nombre;
+	private $nombreEqual;
 	
 	public function getNombre()
 	{
@@ -32,6 +35,26 @@ class NomencladorCriteria extends Criteria{
 	public function setCodigo($codigo)
 	{
 	    $this->codigo = $codigo;
+	}
+
+	public function getOidNotEqual()
+	{
+	    return $this->oidNotEqual;
+	}
+
+	public function setOidNotEqual($oidNotEqual)
+	{
+	    $this->oidNotEqual = $oidNotEqual;
+	}
+
+	public function getNombreEqual()
+	{
+	    return $this->nombreEqual;
+	}
+
+	public function setNombreEqual($nombreEqual)
+	{
+	    $this->nombreEqual = $nombreEqual;
 	}
 }
 

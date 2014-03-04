@@ -64,10 +64,10 @@ class Profesional extends \Turnos\Core\model\Profesional implements \Doctrine\OR
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return array('__isInitialized__', 'nombre', 'matricula', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'cuit', 'condicionIVA', 'categoria', 'user');
+            return array('__isInitialized__', 'nombre', 'matricula', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'cuit', 'condicionIVA', 'categoria', 'user', 'especialidades');
         }
 
-        return array('__isInitialized__', 'nombre', 'matricula', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'cuit', 'condicionIVA', 'categoria', 'user');
+        return array('__isInitialized__', 'nombre', 'matricula', 'domicilio', 'nroDocumento', 'tipoDocumento', 'telefonoFijo', 'telefonoMovil', 'email', 'cuit', 'condicionIVA', 'categoria', 'user', 'especialidades');
     }
 
     /**
@@ -479,6 +479,50 @@ class Profesional extends \Turnos\Core\model\Profesional implements \Doctrine\OR
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', array($user));
 
         return parent::setUser($user);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addEspecialidad(\Turnos\Core\model\Especialidad $especialidad)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addEspecialidad', array($especialidad));
+
+        return parent::addEspecialidad($especialidad);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEspecialidades()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEspecialidades', array());
+
+        return parent::getEspecialidades();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEspecialidades($especialidades)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEspecialidades', array($especialidades));
+
+        return parent::setEspecialidades($especialidades);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasEspecialidadByOid($oid)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasEspecialidadByOid', array($oid));
+
+        return parent::hasEspecialidadByOid($oid);
     }
 
     /**
