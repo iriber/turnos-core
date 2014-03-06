@@ -89,7 +89,8 @@ class HorarioDoctrineDAO extends CrudDAO implements IHorarioDAO{
 					->leftJoin('h.profesional', 'p');
 	   
 			$qb->where( "p.oid= " . $profesional->getOid() );
-			
+			$qb->orderby( "h.dia");
+			$qb->addorderby( "h.horaDesde");
 			$q = $qb->getQuery();
 			
 			return $q->getResult();

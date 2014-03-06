@@ -99,5 +99,20 @@ class Horario extends Entity{
 	{
 	    $this->duracionTurno = $duracionTurno;
 	}
+	
+	public function incluyeHora( \DateTime $hora ){
+		
+		$incluye = false;
+		
+		if( $hora == null  )
+			$incluye = false;
+			
+			
+		if( ($this->getHoraDesde() <= $hora)  && ($this->getHoraHasta() > $hora) )
+			$incluye = true;
+		
+		return $incluye;
+		
+	}
 }
 ?>
