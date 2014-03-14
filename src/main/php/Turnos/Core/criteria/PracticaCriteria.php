@@ -17,7 +17,12 @@ class PracticaCriteria extends Criteria{
 	
 	private $fecha;
 	
-
+	private $fechaDesde;
+	
+	private $fechaHasta;
+	
+	private $obraSocial;
+	
 	public function getProfesional()
 	{
 	    return $this->profesional;
@@ -46,6 +51,36 @@ class PracticaCriteria extends Criteria{
 	public function setFecha($fecha)
 	{
 	    $this->fecha = $fecha;
+	}
+
+	public function getFechaDesde()
+	{
+	    return $this->fechaDesde;
+	}
+
+	public function setFechaDesde($fechaDesde)
+	{
+	    $this->fechaDesde = $fechaDesde;
+	}
+
+	public function getFechaHasta()
+	{
+	    return $this->fechaHasta;
+	}
+
+	public function setFechaHasta($fechaHasta)
+	{
+	    $this->fechaHasta = $fechaHasta;
+	}
+
+	public function getObraSocial()
+	{
+	    return $this->obraSocial;
+	}
+
+	public function setObraSocial($obraSocial)
+	{
+	    $this->obraSocial = $obraSocial;
 	}
 }
 

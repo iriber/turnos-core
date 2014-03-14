@@ -27,7 +27,9 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		
 		$queryBuilder->select(array('p', 'c'))
 						->from( $this->getClazz() , 'p')
-						->leftJoin('p.cliente', 'c');
+						->leftJoin('p.obraSocial', 'os')
+						->leftJoin('p.cliente', 'c')
+						->leftJoin('p.profesional', 'prof');
 		
 		
 		
@@ -38,7 +40,10 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
-		$queryBuilder->select('count(p.oid)')->from( $this->getClazz() , 'p');
+		$queryBuilder->select('count(p.oid)')->from( $this->getClazz() , 'p')
+						->leftJoin('p.obraSocial', 'os')
+						->leftJoin('p.cliente', 'c')
+						->leftJoin('p.profesional', 'prof');
 								
 		return $queryBuilder;
 	}
@@ -48,6 +53,31 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		$cliente = $criteria->getCliente();
 		if( !empty($cliente) ){
 			$queryBuilder->where( "c.oid= " . $cliente->getOid() );
+		}
+		
+		$fecha = $criteria->getFecha();
+		if( !empty($fecha) ){
+			$queryBuilder->andWhere( "p.fecha = '" . $fecha->format("Y-m-d") . "'");
+		}
+		
+		$fechaDesde = $criteria->getFechaDesde();
+		if( !empty($fechaDesde) ){
+			$queryBuilder->andWhere( "p.fecha >= '" . $fechaDesde->format("Y-m-d") . "'");
+		}
+	
+		$fechaHasta = $criteria->getFechaHasta();
+		if( !empty($fechaHasta) ){
+			$queryBuilder->andWhere( "p.fecha <= '" . $fechaHasta->format("Y-m-d") . "'");
+		}
+		
+		$profesional = $criteria->getProfesional();
+		if( !empty($profesional) ){
+			$queryBuilder->andWhere( "prof.oid= " . $profesional->getOid() );
+		}
+		
+		$obraSocial = $criteria->getObraSocial();
+		if( !empty($profesional) ){
+			$queryBuilder->andWhere( "os.oid= " . $obraSocial->getOid() );
 		}
 		
 		$queryBuilder->orderBy('p.fecha', 'DESC');
