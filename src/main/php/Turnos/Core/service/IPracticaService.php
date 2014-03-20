@@ -14,4 +14,5 @@ use Cose\Crud\service\ICrudService;
 interface IPracticaService extends ICrudService {
 
 	function getHistoriaClinica( Cliente $cliente );
+	
 }

@@ -21,7 +21,7 @@ class ResumenHistoriaClinica extends Entity {
 	//variables de instancia.
 
 	/**
-	 * @Column(type="string")
+	/* @Column(type="date")
 	 * @var string
 	 */
 	private $fecha;

@@ -1,6 +1,10 @@
 <?php
 namespace Turnos\Core\dao;
 
+use Turnos\Core\dao\impl\ResumenHistoriaClinicaDoctrineDAO;
+
+use Turnos\Core\dao\impl\ClientePasaeDAO;
+
 use Turnos\Core\dao\impl\EspecialidadDoctrineDAO;
 
 use Turnos\Core\dao\impl\AusenciaDoctrineDAO;
@@ -49,7 +53,9 @@ class DAOFactory {
 	 */
 	public static function getClienteDAO(){
 	
-		return new ClienteDoctrineDAO();	
+		return new ClienteDoctrineDAO();
+		
+		//return new ClientePasaeDAO();	
 	}
 
 	/**
@@ -131,5 +137,15 @@ class DAOFactory {
 	public static function getEspecialidadDAO(){
 	
 		return new EspecialidadDoctrineDAO();	
-	}	
+	}
+
+	/**
+	 * DAO para ResumenHistoriaClinica.
+	 * 
+	 * @return IResumenHistoriaClinicaDAO
+	 */
+	public static function getResumenHistoriaClinicaDAO(){
+	
+		return new ResumenHistoriaClinicaDoctrineDAO();	
+	}
 }

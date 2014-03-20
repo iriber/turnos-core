@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\service;
 
+use Turnos\Core\service\impl\ResumenHistoriaClinicaServiceImpl;
+
 use Turnos\Core\service\impl\EspecialidadServiceImpl;
 
 use Turnos\Core\service\impl\AusenciaServiceImpl;
@@ -110,4 +112,12 @@ class ServiceFactory {
 	
 		return new EspecialidadServiceImpl();	
 	}
+	
+	/**
+	 * @return IResumenHistoriaClinicaService
+	 */
+	public static function getResumenHistoriaClinicaService(){
+	
+		return new ResumenHistoriaClinicaServiceImpl();	
+	}	
 }
