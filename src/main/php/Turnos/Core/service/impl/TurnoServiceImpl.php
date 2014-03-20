@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\service\impl;
 
+use Turnos\Core\exception\TurnoClienteRequiredException;
+
 use Turnos\Core\model\Cliente;
 
 use Turnos\Core\model\EstadoTurno;
@@ -47,8 +49,19 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 
 		//que tenga cliente
 		$cliente = $entity->getCliente();
-		if( empty($cliente) )
-			throw new ServiceException("turno.cliente.required");
+		if( empty($cliente) ){
+			
+			//vemos si tiene el nombre y el teléfono (turnos rápidos)
+			$nombre = $entity->getNombre();
+			if( empty($nombre) )
+				throw new ServiceException("turno.cliente.required");
+				
+			$telefono = $entity->getTelefono();
+			if( empty($telefono) )
+				throw new ServiceException("turno.cliente.required");
+			
+		}
+			
 			
 		//que tenga fecha
 		$fecha = $entity->getFecha();
@@ -193,6 +206,16 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 			
 			$turno = $this->get($turnoOid);
 		
+			
+			//chequeamos si ya se ingresó el cliente
+			//si no se ingresó avisamos con exception
+			$cliente = $turno->getCliente();
+			if( empty($cliente) ){
+				$ex = new TurnoClienteRequiredException("turno.enSala.cliente.required");
+				$ex->setTurno($turno);
+				throw $ex;
+				
+			}
 			$turno->setEstado( EstadoTurno::EnSala );
 		
 			$this->getDAO()->update( $turno );
@@ -208,6 +231,10 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 			
 			throw new ServiceException( $e );
 			
+		} catch (ServiceException $e) {
+
+			throw $e;
+					
 		} catch (\Exception $e) {
 
 			throw new ServiceException( $e );

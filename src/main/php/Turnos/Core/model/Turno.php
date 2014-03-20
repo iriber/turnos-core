@@ -58,11 +58,24 @@ class Turno extends Entity {
 	 * sólo usado por la migración para los turnos
 	 * que no tenían paciente asignado. se agregó
 	 * para que queda un descripción de la persona
-	 * que tomó el turno. 
+	 * que tomó el turno.
+	 * 
+	 * aprovecho para utilizarlo cuando dan los turnos
+	 * telefónicamente donde sólo indican nombre y teléfono.
+	 *  
 	 * @Column(type="string", nullable=true)
 	 * @var string
 	 */
 	private $nombre;
+	
+	/**
+	 * utilizado cuando dan los turnos
+	 * telefónicamente donde sólo indican nombre y teléfono.
+	 *  
+	 * @Column(type="string", nullable=true)
+	 * @var string
+	 */
+	private $telefono;
 	
 	/**
 	 * @Column(type="integer")
@@ -238,6 +251,16 @@ class Turno extends Entity {
 	public function setDuracion($duracion)
 	{
 	    $this->duracion = $duracion;
+	}
+
+	public function getTelefono()
+	{
+	    return $this->telefono;
+	}
+
+	public function setTelefono($telefono)
+	{
+	    $this->telefono = $telefono;
 	}
 }
 ?>
