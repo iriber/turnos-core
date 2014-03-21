@@ -54,7 +54,14 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 		}
 		
 		
+		//que tenga nroHistoriaClinica
+		$nroHC = $entity->getNroHistoriaClinica();
+		if( empty($nroHC) )
+			throw new ServiceException("cliente.nroHistoriaClinica.required");
 		
+		//unicidad de la historia clínica
+		if( $this->existsByHistoriaClinica($nroHC, $entity->getOid()) )
+			throw new DuplicatedEntityException("cliente.nroHistoriaClinica.unicity");
 	}
 	
 	/**
@@ -126,6 +133,39 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 		
 		}catch (\Exception $ex){
 			\Logger::getLogger(__CLASS__)->info("error buscando por nombre. " . $ex->getMessage());
+			$exists = false;
+		}
+		return $exists;
+	}
+	
+	/**
+	 * Retorna true si existe un cliente dado el número de historia clínica. 
+	 * @param string $nroHistoriaClinica
+	 * @param integer $oid
+	 */
+	private function existsByHistoriaClinica($nroHistoriaClinica, $oid=null){
+	
+		$criteria = new ClienteCriteria();
+		$criteria->setNroHistoriaClinica($nroHistoriaClinica);
+		$criteria->setOidNotEqual($oid);
+		
+		$exists = false;
+		
+		try{
+			
+			$cliente = $this->getSingleResult( $criteria );
+			$exists = true;
+			
+		}catch (ServiceNonUniqueResultException $ex){
+			\Logger::getLogger(__CLASS__)->info( $ex->getMessage());
+			$exists = true;
+		
+		}catch (ServiceException $ex){
+			\Logger::getLogger(__CLASS__)->info( $ex->getMessage());
+			$exists = false;
+		
+		}catch (\Exception $ex){
+			\Logger::getLogger(__CLASS__)->info("error buscando por historia clínica. " . $ex->getMessage());
 			$exists = false;
 		}
 		return $exists;

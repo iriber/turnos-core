@@ -56,10 +56,6 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 			if( empty($nombre) )
 				throw new ServiceException("turno.cliente.required");
 				
-			$telefono = $entity->getTelefono();
-			if( empty($telefono) )
-				throw new ServiceException("turno.cliente.required");
-			
 		}
 			
 			
