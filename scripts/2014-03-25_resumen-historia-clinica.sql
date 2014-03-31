@@ -9,3 +9,6 @@ CREATE TABLE IF NOT EXISTS `trn_resumen_historia_clinica` (
   KEY `profesional_oid` (`profesional_oid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+ALTER TABLE `trn_resumen_historia_clinica` CHANGE `texto` `texto` TEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL ;
+
+ALTER TABLE `trn_turno` ADD `nomenclador_oid` INT NULL ;

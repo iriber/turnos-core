@@ -29,6 +29,7 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 						->from( $this->getClazz() , 'p')
 						->leftJoin('p.obraSocial', 'os')
 						->leftJoin('p.cliente', 'c')
+						->leftJoin('p.nomenclador', 'n')
 						->leftJoin('p.profesional', 'prof');
 		
 		
@@ -43,6 +44,7 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		$queryBuilder->select('count(p.oid)')->from( $this->getClazz() , 'p')
 						->leftJoin('p.obraSocial', 'os')
 						->leftJoin('p.cliente', 'c')
+						->leftJoin('p.nomenclador', 'n')
 						->leftJoin('p.profesional', 'prof');
 								
 		return $queryBuilder;
@@ -78,6 +80,11 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		$obraSocial = $criteria->getObraSocial();
 		if( !empty($profesional) ){
 			$queryBuilder->andWhere( "os.oid= " . $obraSocial->getOid() );
+		}
+		
+		$nomenclador = $criteria->getNomenclador();
+		if( !empty($nomenclador) ){
+			$queryBuilder->andWhere( "n.oid= " . $nomenclador->getOid() );
 		}
 		
 		$queryBuilder->orderBy('p.fecha', 'DESC');

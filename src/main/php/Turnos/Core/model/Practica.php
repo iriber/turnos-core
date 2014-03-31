@@ -123,16 +123,6 @@ class Practica extends Entity {
 	    $this->nomenclador = $nomenclador;
 	}
 
-	public function getEstado()
-	{
-	    return $this->estado;
-	}
-
-	public function setEstado($estado)
-	{
-	    $this->estado = $estado;
-	}
-
 	public function getObservaciones()
 	{
 	    return $this->observaciones;

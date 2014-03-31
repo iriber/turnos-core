@@ -23,6 +23,8 @@ class PracticaCriteria extends Criteria{
 	
 	private $obraSocial;
 	
+	private $nomenclador;
+	
 	public function getProfesional()
 	{
 	    return $this->profesional;
@@ -81,6 +83,16 @@ class PracticaCriteria extends Criteria{
 	public function setObraSocial($obraSocial)
 	{
 	    $this->obraSocial = $obraSocial;
+	}
+
+	public function getNomenclador()
+	{
+	    return $this->nomenclador;
+	}
+
+	public function setNomenclador($nomenclador)
+	{
+	    $this->nomenclador = $nomenclador;
 	}
 }
 

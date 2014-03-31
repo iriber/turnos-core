@@ -43,8 +43,8 @@ class Nomenclador extends Entity {
 	    $this->nombre = $nombre;
 	}
 	
-	public function __toString(){
-		return $this->getNombre();
-	}
+//	public function __toString(){
+//		return $this->getNombre();
+//	}
 }
 ?>

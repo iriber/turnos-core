@@ -109,6 +109,12 @@ class Turno extends Entity {
 	 */
 	private $duracion;
 	
+	/**
+     * @ManyToOne(targetEntity="Nomenclador",cascade={"merge"})
+     * @JoinColumn(name="nomenclador_oid", referencedColumnName="oid")
+     **/
+	private $nomenclador;
+	
 	public function __construct(){
 		 
 		$this->profesional = null;
@@ -116,6 +122,7 @@ class Turno extends Entity {
 		$this->estado = EstadoTurno::Asignado;
 		$this->obraSocial = null; 
 		$this->duracion = 15;
+		$this->nomenclador = null;
 	}
 
 
@@ -261,6 +268,16 @@ class Turno extends Entity {
 	public function setTelefono($telefono)
 	{
 	    $this->telefono = $telefono;
+	}
+
+	public function getNomenclador()
+	{
+	    return $this->nomenclador;
+	}
+
+	public function setNomenclador($nomenclador)
+	{
+	    $this->nomenclador = $nomenclador;
 	}
 }
 ?>

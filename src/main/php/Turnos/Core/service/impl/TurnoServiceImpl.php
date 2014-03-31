@@ -1,6 +1,12 @@
 <?php
 namespace Turnos\Core\service\impl;
 
+use Turnos\Core\criteria\PracticaCriteria;
+
+use Turnos\Core\service\ServiceFactory;
+
+use Turnos\Core\model\Practica;
+
 use Turnos\Core\exception\TurnoClienteRequiredException;
 
 use Turnos\Core\model\Cliente;
@@ -142,6 +148,42 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 			$turno->setEstado( EstadoTurno::EnCurso );
 		
 			$this->getDAO()->update( $turno );
+			
+			//generamos la práctica asociada al turno.
+			$nomenclador = $turno->getNomenclador();
+			
+			//primero chequeamos que no se haya generado la práctica manualmente
+			//esto lo miramos chequeamos que no exista una práctica con el mismo nomenclador,
+			//para la misma fecha.
+			
+			if( $nomenclador!=null ){
+			
+				$criteria= new PracticaCriteria();
+				$criteria->setFecha($turno->getFecha());
+				$criteria->setCliente($turno->getCliente());
+				$criteria->setNomenclador($nomenclador);
+				
+				try {
+					
+					$practica = ServiceFactory::getPracticaService()->getSingleResult( $criteria );
+					
+					//ya existe, no hacemos nada.		
+				}catch (ServiceException $se){
+				
+					//no existe, la creamos.
+					$practica = new Practica();
+					$practica->setCliente( $turno->getCliente() );
+					$practica->setProfesional( $turno->getProfesional() );
+					$practica->setObraSocial($turno->getCliente()->getObraSocial() );
+					$practica->setFecha( $turno->getFecha() );
+					$practica->setNomenclador( $nomenclador );
+				
+					ServiceFactory::getPracticaService()->add( $practica );
+				}
+				
+				
+				
+			}
 			
 		} catch (DAOException $e){
 			
