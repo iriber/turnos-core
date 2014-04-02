@@ -42,11 +42,11 @@ class Practica extends Entity {
 	private $observaciones;
 
 	/**
-     * @ManyToOne(targetEntity="ObraSocial",cascade={"merge"})
-     * @JoinColumn(name="obraSocial_oid", referencedColumnName="oid")
+     * @ManyToOne(targetEntity="ClienteObraSocial",cascade={"persist"})
+     * @JoinColumn(name="clienteObraSocial_oid", referencedColumnName="oid")
      **/
-	private $obraSocial;
-	
+	private $clienteObraSocial;
+		
 	/**
      * @ManyToOne(targetEntity="Nomenclador",cascade={"merge"})
      * @JoinColumn(name="nomenclador_oid", referencedColumnName="oid")
@@ -59,7 +59,7 @@ class Practica extends Entity {
 		 
 		$this->profesional = new Profesional();
 		$this->cliente = new Cliente();
-		$this->obraSocial = new ObraSocial();
+		$this->clienteObraSocial = new ClienteObraSocial();
 		$this->nomenclador = new Nomenclador();
 		$this->observaciones = ""; 
 	}
@@ -105,12 +105,16 @@ class Practica extends Entity {
 	
 	public function getObraSocial()
 	{
-	    return $this->obraSocial;
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getObraSocial();
 	}
 
 	public function setObraSocial($obraSocial)
 	{
-	    $this->obraSocial = $obraSocial;
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+			
+		$this->clienteObraSocial->setObraSocial( $obraSocial );
 	}
 
 	public function getNomenclador()
@@ -131,6 +135,44 @@ class Practica extends Entity {
 	public function setObservaciones($observaciones)
 	{
 	    $this->observaciones = $observaciones;
+	}
+	
+	
+	public function getNroObraSocial()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getNroObraSocial();
+	}
+
+	public function setNroObraSocial($nroObraSocial)
+	{
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+			
+	    $this->clienteObraSocial->setNroObraSocial($nroObraSocial);
+	}
+	
+	
+	public function getTipoAfiliado()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getTipoAfiliado();
+	}
+
+	public function setTipoAfiliado($tipo)
+	{
+	    $this->clienteObraSocial->setTipoAfiliado($tipo);
+	}
+	
+
+	public function getClienteObraSocial()
+	{
+	    return $this->clienteObraSocial;
+	}
+
+	public function setClienteObraSocial($clienteObraSocial)
+	{
+	    $this->clienteObraSocial = $clienteObraSocial;
 	}
 }
 ?>

@@ -30,11 +30,12 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
 		//$queryBuilder->select('p')->from( $this->getClazz() , 'p');
-		$queryBuilder->select(array('t', 'p', 'c', 'os'))
+		$queryBuilder->select(array('t', 'p', 'c', 'cos'))
 	   				->from( $this->getClazz(), "t")
 					->leftJoin('t.profesional', 'p')
 					->leftJoin('t.cliente', 'c')
-					->leftJoin('t.obraSocial', 'os');
+					->leftJoin('t.clienteObraSocial', 'cos');
+					//->leftJoin('t.clienteObraSocial.obraSocial', 'os');
 					
 		return $queryBuilder;
 	}
@@ -47,7 +48,8 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 					->from( $this->getClazz() , 't')
 					->leftJoin('t.profesional', 'p')
 					->leftJoin('t.cliente', 'c')
-					->leftJoin('t.obraSocial', 'os');
+					->leftJoin('t.clienteObraSocial', 'cos');
+					//->leftJoin('t.clienteObraSocial.obraSocial', 'os');
 								
 		return $queryBuilder;
 	}
@@ -124,11 +126,12 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 			
 			$qb = $this->getEntityManager()->createQueryBuilder();
 			
-			$qb->select(array('t', 'p', 'c', 'os'))
+			$qb->select(array('t', 'p', 'c', 'cos'))
 	   				->from( $this->getClazz(), "t")
 					->leftJoin('t.profesional', 'p')
 					->leftJoin('t.cliente', 'c')
-					->leftJoin('t.obraSocial', 'os');
+					->leftJoin('t.clienteObraSocial', 'cos');
+					//->leftJoin('cos.obraSocial', 'os');
 	   
 			$qb->where( "t.fecha= :fecha " );
 			
@@ -179,11 +182,12 @@ class TurnoDoctrineDAO extends CrudDAO implements ITurnoDAO{
 			
 			$qb = $this->getEntityManager()->createQueryBuilder();
 			
-			$qb->select(array('t', 'p', 'c', 'os'))
+			$qb->select(array('t', 'p', 'c', 'cos'))
 	   				->from( $this->getClazz(), "t")
 					->leftJoin('t.profesional', 'p')
 					->leftJoin('t.cliente', 'c')
-					->leftJoin('t.obraSocial', 'os');
+					->leftJoin('t.clienteObraSocial', 'cos');
+					//->leftJoin('cos.obraSocial', 'os');
 	   
 			$qb->where( "t.fecha= :fecha " );
 			

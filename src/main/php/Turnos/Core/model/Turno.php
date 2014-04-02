@@ -83,19 +83,12 @@ class Turno extends Entity {
 	 */
 	private $estado;
 	
-	
 	/**
-     * @ManyToOne(targetEntity="ObraSocial",cascade={"merge"})
-     * @JoinColumn(name="obraSocial_oid", referencedColumnName="oid")
+     * @ManyToOne(targetEntity="ClienteObraSocial",cascade={"persist"})
+     * @JoinColumn(name="clienteObraSocial_oid", referencedColumnName="oid")
      **/
-	private $obraSocial;
+	private $clienteObraSocial;
 	
-	/**
-	 * @Column(type="string", nullable=true)
-	 * @var string
-	 */
-	private $nroObraSocial;
-
 	/**
 	 * @Column(type="integer")
 	 * @var Prioridad
@@ -120,7 +113,7 @@ class Turno extends Entity {
 		$this->profesional = null;
 		$this->cliente = null;
 		$this->estado = EstadoTurno::Asignado;
-		$this->obraSocial = null; 
+		$this->clienteObraSocial = new ClienteObraSocial(); 
 		$this->duracion = 15;
 		$this->nomenclador = null;
 	}
@@ -211,22 +204,28 @@ class Turno extends Entity {
 
 	public function getObraSocial()
 	{
-	    return $this->obraSocial;
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getObraSocial();
 	}
 
 	public function setObraSocial($obraSocial)
 	{
-	    $this->obraSocial = $obraSocial;
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+	    $this->clienteObraSocial->setObraSocial($obraSocial);
 	}
 
 	public function getNroObraSocial()
 	{
-	    return $this->nroObraSocial;
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getNroObraSocial();
 	}
 
 	public function setNroObraSocial($nroObraSocial)
 	{
-	    $this->nroObraSocial = $nroObraSocial;
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+	    $this->clienteObraSocial->setNroObraSocial($nroObraSocial);
 	}
 
 	public function getNombre()
@@ -278,6 +277,27 @@ class Turno extends Entity {
 	public function setNomenclador($nomenclador)
 	{
 	    $this->nomenclador = $nomenclador;
+	}
+	
+	public function getTipoAfiliado()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getTipoAfiliado();
+	}
+
+	public function setTipoAfiliado($tipo)
+	{
+	    $this->clienteObraSocial->setTipoAfiliado($tipo);
+	}
+	
+	public function getClienteObraSocial()
+	{
+	    return $this->clienteObraSocial;
+	}
+
+	public function setClienteObraSocial($clienteObraSocial)
+	{
+	    $this->clienteObraSocial = $clienteObraSocial;
 	}
 }
 ?>

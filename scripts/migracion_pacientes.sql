@@ -16,3 +16,7 @@ FECHANAC,
 localidad,
 STR_TO_DATE(fechaAlta,'%d/%m/%Y')
 from paciente order by NUMERO;
+
+
+
+

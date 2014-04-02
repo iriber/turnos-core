@@ -75,17 +75,11 @@ class Cliente extends Entity {
 	private $sexo;
 	
 	/**
-     * @ManyToOne(targetEntity="ObraSocial",cascade={"merge"})
-     * @JoinColumn(name="obraSocial_oid", referencedColumnName="oid")
+     * @ManyToOne(targetEntity="ClienteObraSocial",cascade={"persist"})
+     * @JoinColumn(name="clienteObraSocial_oid", referencedColumnName="oid")
      **/
-	private $obraSocial;
+	private $clienteObraSocial;
 
-	/** 
-	 * @Column(type="string", nullable=true)
-	 *  
-	 **/
-	private $nroObraSocial;
-	
 	/**
      * @ManyToOne(targetEntity="Localidad",cascade={"merge"})
      * @JoinColumn(name="localidad_oid", referencedColumnName="oid")
@@ -121,7 +115,7 @@ class Cliente extends Entity {
 		
 		$this->tipoDocumento = TipoDocumento::DNI;
 		$this->sexo = Sexo::MASCULINO;
-		//$this->obraSocial = new ObraSocial();
+		//$this->clienteObraSocial = new ClienteObraSocial();
 		//$this->localidad = new Localidad();
 			
 	}
@@ -239,15 +233,6 @@ class Cliente extends Entity {
 	    $this->sexo = $sexo;
 	}
 
-	public function getObraSocial()
-	{
-	    return $this->obraSocial;
-	}
-
-	public function setObraSocial($obraSocial)
-	{
-	    $this->obraSocial = $obraSocial;
-	}
 
 	public function getFechaNacimiento()
 	{
@@ -273,16 +258,6 @@ class Cliente extends Entity {
 	public function setLocalidad($localidad)
 	{
 	    $this->localidad = $localidad;
-	}
-
-	public function getNroObraSocial()
-	{
-	    return $this->nroObraSocial;
-	}
-
-	public function setNroObraSocial($nroObraSocial)
-	{
-	    $this->nroObraSocial = $nroObraSocial;
 	}
 
 	public function getFechaAlta()
@@ -359,5 +334,92 @@ class Cliente extends Entity {
 	public function setObservaciones($observaciones)
 	{
 	    $this->observaciones = $observaciones;
+	}
+
+
+	public function getClienteObraSocial()
+	{
+	    return $this->clienteObraSocial;
+	}
+
+	public function setClienteObraSocial($clienteObraSocial)
+	{
+	    $this->clienteObraSocial = $clienteObraSocial;
+	}
+	
+	public function getObraSocial()
+	{
+		if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getObraSocial();
+	}
+
+	private function initClienteObraSocial(){
+		
+		$this->setClienteObraSocial( new ClienteObraSocial() );
+		$this->getClienteObraSocial()->setCliente($this);
+	}
+	
+	public function setObraSocial($obraSocial)
+	{
+		if( $this->clienteObraSocial ==null ){
+			$this->initClienteObraSocial();
+		}
+	    $this->clienteObraSocial->setObraSocial($obraSocial);
+	}
+	
+	public function getNroObraSocial()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getNroObraSocial();
+	}
+
+	public function setNroObraSocial($nroObraSocial)
+	{
+	    if( $this->clienteObraSocial ==null )
+			$this->initClienteObraSocial();
+			
+		$this->clienteObraSocial->setNroObraSocial($nroObraSocial);
+	}	
+
+	public function getTipoAfiliado()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getTipoAfiliado();
+	}
+
+	public function setTipoAfiliado($tipo)
+	{
+
+		if( $this->clienteObraSocial ==null )
+			$this->initClienteObraSocial();
+			
+		$this->clienteObraSocial->setTipoAfiliado($tipo);
+	}
+	
+	/**
+	 * chequea si hubo un cambio en sus datos
+	 * de obra social y los actualiza en caso de ser necesario.
+	 * @param ClienteObraSocial $clienteObraSocial
+	 */
+	public function checkearObraSocial(ClienteObraSocial $clienteObraSocial){
+
+		$osActual = $this->getObraSocial();
+		
+		$osNueva = $clienteObraSocial->getObraSocial();
+		
+		$cambio =  ($osActual== null && $osNueva!=null ) || ($osActual!= null && $osNueva==null );
+			
+		$cambio = $cambio || ( $osActual->getOid() != $osNueva->getOid() );
+		
+		$cambio = $cambio || ( $clienteObraSocial->getNroObraSocial() != $this->getNroObraSocial() );
+		
+		$cambio = $cambio || ( $clienteObraSocial->getTipoAfiliado() != $this->getTipoAfiliado() );
+		
+		if( $cambio ){
+			$clienteObraSocial->setCliente($this);
+			$this->setClienteObraSocial($clienteObraSocial);
+			return $clienteObraSocial;
+		}else 
+			return $this->getClienteObraSocial();
 	}
 }

@@ -27,7 +27,7 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		
 		$queryBuilder->select(array('p', 'c'))
 						->from( $this->getClazz() , 'p')
-						->leftJoin('p.obraSocial', 'os')
+						->leftJoin('p.clienteObraSocial', 'cos')
 						->leftJoin('p.cliente', 'c')
 						->leftJoin('p.nomenclador', 'n')
 						->leftJoin('p.profesional', 'prof');
@@ -42,7 +42,7 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
 		$queryBuilder->select('count(p.oid)')->from( $this->getClazz() , 'p')
-						->leftJoin('p.obraSocial', 'os')
+						->leftJoin('p.clienteObraSocial', 'cos')
 						->leftJoin('p.cliente', 'c')
 						->leftJoin('p.nomenclador', 'n')
 						->leftJoin('p.profesional', 'prof');
@@ -79,7 +79,7 @@ class PracticaDoctrineDAO extends CrudDAO implements IPracticaDAO{
 		
 		$obraSocial = $criteria->getObraSocial();
 		if( !empty($profesional) ){
-			$queryBuilder->andWhere( "os.oid= " . $obraSocial->getOid() );
+			$queryBuilder->andWhere( "cos.obraSocial.oid= " . $obraSocial->getOid() );
 		}
 		
 		$nomenclador = $criteria->getNomenclador();

@@ -104,14 +104,26 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 		//$this->validateOnAdd( $entity );
 			
 		//si el turno tiene obra social asignada, actualizamos la obra social del cliente.
-		$os = $entity->getObraSocial();
-		$nroObraSocial = $entity->getNroObraSocial();
-		if( $os!= null && $os->getOid()>0){
-			
-			$entity->getCliente()->setObraSocial($os);
-			$entity->getCliente()->setNroObraSocial($nroObraSocial);
+		
+		$cliente = $entity->getCliente();
+		if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$os = $entity->getObraSocial();
+			if( $os!= null && $os->getOid()>0){
+				//chequeo la obra social que tiene el cliente actualmente.
+				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
+				DAOFactory::getClienteDAO()->update( $cliente );
+				$entity->setCliente($cliente);
+				
+			}else 
+				$entity->getCliente()->setClienteObraSocial(null);
+		}else{
+			$entity->setClienteObraSocial(null);
 		}
-			
+
+		
+		
 		//agregamos el turno.
 		parent::add($entity);
 			
@@ -174,7 +186,7 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 					$practica = new Practica();
 					$practica->setCliente( $turno->getCliente() );
 					$practica->setProfesional( $turno->getProfesional() );
-					$practica->setObraSocial($turno->getCliente()->getObraSocial() );
+					$practica->setClienteObraSocial($turno->getCliente()->getClienteObraSocial() );
 					$practica->setFecha( $turno->getFecha() );
 					$practica->setNomenclador( $nomenclador );
 				
@@ -360,5 +372,36 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
         }
 	}
 	
+	/**
+	 * redefino el update para cambiar la obra social del
+	 * cliente.
+	 * @param $entity
+	 * @throws ServiceException
+	 */
+	public function update($entity){
+
+		//$this->validateOnUpdate( $entity );
+			
+		//si el turno tiene obra social asignada, actualizamos la obra social del cliente.
+		$cliente = $entity->getCliente();
+		if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$os = $entity->getObraSocial();
+			if( $os!= null && $os->getOid()>0){
+				//chequeo la obra social que tiene el cliente actualmente.
+				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
+				DAOFactory::getClienteDAO()->update( $cliente );
+				$entity->setCliente($cliente);
+			}else 
+				$entity->getCliente()->setClienteObraSocial(null);
+			
+		}else{
+			$entity->setClienteObraSocial(null);
+		}
+		
+		parent::update($entity);
+			
+	}
 	
 }

@@ -48,12 +48,12 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		
 		$afiliado = $criteria->getNroObraSocial();
 		if( !empty($afiliado) ){
-			$queryBuilder->andWhere("c.nroObraSocial = '$afiliado'");
+			$queryBuilder->andWhere("cos.nroObraSocial = '$afiliado'");
 		}
 		
 		$obraSocial = $criteria->getObraSocialNombre();
 		if( !empty($obraSocial) ){
-			$queryBuilder->andWhere("o.nombre like '%$obraSocial%'");
+			$queryBuilder->andWhere("cos.obraSocial.nombre like '%$obraSocial%'");
 		}
 
 		$domicilio = $criteria->getDomicilio();
@@ -76,8 +76,8 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
-		$queryBuilder->select('c')->from( $this->getClazz() , 'c')
-								->leftJoin('c.obraSocial', 'o');
+		$queryBuilder->select('c', 'cos')->from( $this->getClazz() , 'c')
+								->leftJoin('c.clienteObraSocial', 'cos');
 								
 		return $queryBuilder;
 	}
@@ -87,7 +87,7 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
 		$queryBuilder->select('count(c.oid)')->from( $this->getClazz() , 'c')
-								->leftJoin('c.obraSocial', 'o');
+								->leftJoin('c.clienteObraSocial', 'cos');
 								
 		return $queryBuilder;
 	}
@@ -95,7 +95,7 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 	protected function getFieldName($name){
 		
 		$hash = array();
-		$hash["obraSocial.nombre"] = "o.nombre";
+		$hash["obraSocial.nombre"] = "cos.obraSocial.nombre";
 		
 		if( array_key_exists($name, $hash) )
 			return $hash[$name];

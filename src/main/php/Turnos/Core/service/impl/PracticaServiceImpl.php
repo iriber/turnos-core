@@ -43,4 +43,70 @@ class PracticaServiceImpl extends CrudService implements IPracticaService {
 		return $this->getList($criteria);
 
 	}
+	
+	/**
+	 * redefino el add para cambiar la obra social del
+	 * cliente.
+	 * @param $entity
+	 * @throws ServiceException
+	 */
+	public function add($entity){
+
+		//$this->validateOnAdd( $entity );
+			
+		//si tiene obra social asignada, actualizamos la obra social del cliente.
+		$cliente = $entity->getCliente();
+		if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$os = $entity->getObraSocial();
+			if( $os!= null && $os->getOid()>0){
+				//chequeo la obra social que tiene el cliente actualmente.
+				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
+				DAOFactory::getClienteDAO()->update( $cliente );
+				$entity->setCliente($cliente);
+				
+			}else 
+				$entity->getCliente()->setClienteObraSocial(null);
+		}else{
+			$entity->setClienteObraSocial(null);
+		}
+				
+		//agregamos la práctica.
+		parent::add($entity);
+			
+	}
+	
+	/**
+	 * redefino el update para cambiar la obra social del
+	 * cliente.
+	 * @param $entity
+	 * @throws ServiceException
+	 */
+	public function update($entity){
+
+		//$this->validateOnUpdate( $entity );
+			
+		//si tiene obra social asignada, actualizamos la obra social del cliente.
+		$cliente = $entity->getCliente();
+		if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$os = $entity->getObraSocial();
+			if( $os!= null && $os->getOid()>0){
+				//chequeo la obra social que tiene el cliente actualmente.
+				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
+				DAOFactory::getClienteDAO()->update( $cliente );
+				$entity->setCliente($cliente);
+				
+			}else 
+				$entity->getCliente()->setClienteObraSocial(null);
+		}else{
+			$entity->setClienteObraSocial(null);
+		}
+				
+		//modificamos la práctica.
+		parent::update($entity);
+			
+	}
 }
