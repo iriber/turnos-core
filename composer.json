@@ -1,24 +1,67 @@
-{
+{    
+	"name": "turnos/core",
+    "type": "library","version":"1.0.0",
+    "description": "Turnos for PHP",
+    "keywords": ["php", "turnos"],
+    "homepage": "http://www.misturnos.com.ar",
+    "license": "GPL v2",
+    "authors": [
+        {"name": "Bernardo Iribarne", "email": "ber.iribarne@gmail.com"}
+    ],
     "autoload": {
         "psr-0": {
             "Turnos\\Core": "src/main/php",
-            "Turnos\\Core\\Test": "src/test/php",
-            "Cose": "/home/bernardo/workspace_php/cose/src/main/php",
-        	"Cose\\Security": "/home/bernardo/workspace_php/cose_security/src/main/php",
-        	"Cose\\Crud": "/home/bernardo/workspace_php/cose_crud/src/main/php",
-        	"Cose\\Observer": "/home/bernardo/workspace_php/cose_observer/src/main/php"
-        	
+            "Turnos\\Core\\Test": "src/test/php"        	
         }
     },
     "repositories": [
         {
             "type": "vcs",
             "url": "https://github.com/apache/logging-log4php"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "codnet/cose",
+                "version": "2.0.0",
+                "source": {
+                    "url": "https://codnet.no-ip.org:8443/svn/codnet_services/",
+                    "type": "svn",
+                    "reference": "tags/cose_2_0_0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "codnet/security",
+                "version": "2.0.0",
+                "source": {
+                    "url": "https://codnet.no-ip.org:8443/svn/codnet_services/",
+                    "type": "svn",
+                    "reference": "tags/cose_security_2_0_0"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "codnet/crud",
+                "version": "2.0.0",
+                "source": {
+                    "url": "https://codnet.no-ip.org:8443/svn/codnet_crud/",
+                    "type": "svn",
+                    "reference": "tags/crud_2_0_0"
+                }
+            }
         }
     ],
     "require": {
         "apache/log4php": "2.3.0",
         "doctrine/orm": "2.4.0",
-        "niktux/addendum": "dev-master"
+        "niktux/addendum": "dev-master",
+        "codnet/cose": "2.0.0",
+        "codnet/crud": "2.0.0",
+        "codnet/security": "2.0.0"
     }
 }
