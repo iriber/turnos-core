@@ -11,4 +11,5 @@ use Cose\Crud\service\ICrudService;
  */
 interface IClienteService extends ICrudService {
 	
+	public function getByHistoriaClinica( $nroHistoriaClinica );
 }

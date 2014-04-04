@@ -30,6 +30,30 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 		return DAOFactory::getClienteDAO();
 	}
 	
+	public function getByHistoriaClinica( $nroHistoriaClinica ){
+	
+		try{
+		
+			$criteria = new ClienteCriteria();
+			$criteria->setNroHistoriaClinica($nroHistoriaClinica);
+			
+			return $this->getSingleResult( $criteria );
+			
+		} catch (\Doctrine\ORM\NonUniqueResultException $e){
+
+			return null;
+			
+		} catch (\Doctrine\ORM\NoResultException $e){
+
+			return null;
+			
+		} catch (\Exception $e) {
+			
+			throw new DAOException( $e->getMessage() );
+			
+		}	
+	} 
+	
 	function validateOnAdd( $entity ){
 	
 		//que tenga nombre
