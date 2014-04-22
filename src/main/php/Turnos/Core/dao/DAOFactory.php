@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\dao;
 
+use Turnos\Core\dao\impl\StatsDoctrineDAO;
+
 use Turnos\Core\dao\impl\ClienteObraSocialDoctrineDAO;
 
 use Turnos\Core\dao\impl\ResumenHistoriaClinicaDoctrineDAO;
@@ -150,7 +152,6 @@ class DAOFactory {
 	
 		return new ResumenHistoriaClinicaDoctrineDAO();	
 	}
-	
 
 	/**
 	 * DAO para ClienteObraSocial
@@ -160,5 +161,15 @@ class DAOFactory {
 	public static function getClienteObraSocialDAO(){
 	
 		return new ClienteObraSocialDoctrineDAO();	
+	}
+
+	/**
+	 * DAO para stats
+	 * 
+	 * @return IStatsDAO
+	 */
+	public static function getStatsDAO(){
+	
+		return new StatsDoctrineDAO();	
 	}
 }

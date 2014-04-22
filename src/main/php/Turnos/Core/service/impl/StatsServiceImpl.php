@@ -11,6 +11,7 @@ use Turnos\Core\dao\DAOFactory,
 	Turnos\Core\service\IClienteService;
 
 use Cose\service\impl\Service;
+use Cose\exception\DAOException;
 
 use Cose\Security\service\SecurityContext;
 use Cose\exception\ServiceException;
@@ -33,22 +34,35 @@ class StatsServiceImpl extends Service implements IStatsService {
 	
 		try{
 
+			//inicializamos el 
 			$result = array(
 			
-				"1" => array("cantidad" => 2300, "importe" => 38000 ),
-				"2" => array("cantidad" => 300, "importe" => 35030 ),
-				"3" => array("cantidad" => 3300, "importe" => 33400 ),
-				"4" => array("cantidad" => 5300, "importe" => 67450 ),
-				"5" => array("cantidad" => 6000, "importe" => 75360 ),
-				"6" => array("cantidad" => 4500, "importe" => 45600 ),
-				"7" => array("cantidad" => 3560, "importe" => 6700 ),
-				"8" => array("cantidad" => 2230, "importe" => 56600 ),
-				"9" => array("cantidad" => 7630, "importe" => 98300 ),
-				"10" => array("cantidad" => 2330, "importe" => 243000 ),
-				"11" => array("cantidad" => 6230, "importe" => 138000 ),
-				"12" => array("cantidad" => 9230, "importe" => 233000 ),
+//				"1" => array("cantidad" => 0, "importe" => 0 ),
+//				"2" => array("cantidad" => 0, "importe" => 0 ),
+//				"3" => array("cantidad" => 0, "importe" => 0 ),
+//				"4" => array("cantidad" => 0, "importe" => 0 ),
+//				"5" => array("cantidad" => 0, "importe" => 0 ),
+//				"6" => array("cantidad" => 0, "importe" => 0 ),
+//				"7" => array("cantidad" => 0, "importe" => 0 ),
+//				"8" => array("cantidad" => 0, "importe" => 0 ),
+//				"9" => array("cantidad" => 0, "importe" => 0 ),
+//				"10" => array("cantidad" => 0, "importe" => 0 ),
+//				"11" => array("cantidad" => 0, "importe" => 0 ),
+//				"12" => array("cantidad" => 0, "importe" => 0 ),
 			
 			);
+			
+			$dao = DAOFactory::getStatsDAO();
+			
+			$resultDAO = $dao->getClientesPorMes($anio);
+
+			foreach ($resultDAO as $next) {
+				
+				$result[ $next["mes"] ] = array("cantidad" => $next["cantidad"], "importe" => $next["importeTotal"] );
+				
+			}
+			
+			
 			return $result;
 			
 		} catch (\Doctrine\ORM\NonUniqueResultException $e){
