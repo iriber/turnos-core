@@ -107,6 +107,15 @@ class Turno extends Entity {
      * @JoinColumn(name="nomenclador_oid", referencedColumnName="oid")
      **/
 	private $nomenclador;
+
+	
+	/**
+	 * @Column(type="string", nullable=true)
+	 * @var string
+	 */
+	private $observaciones;
+	
+	
 	
 	public function __construct(){
 		 
@@ -298,6 +307,16 @@ class Turno extends Entity {
 	public function setClienteObraSocial($clienteObraSocial)
 	{
 	    $this->clienteObraSocial = $clienteObraSocial;
+	}
+
+	public function getObservaciones()
+	{
+	    return $this->observaciones;
+	}
+
+	public function setObservaciones($observaciones)
+	{
+	    $this->observaciones = $observaciones;
 	}
 }
 ?>
