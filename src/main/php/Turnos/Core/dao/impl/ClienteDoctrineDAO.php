@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\dao\impl;
 
+use Turnos\Core\dao\helper\LikeWrapper;
+
 use Turnos\Core\model\Cliente;
 
 use Turnos\Core\dao\IClienteDAO;
@@ -33,7 +35,9 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		
 		$nombre = $criteria->getNombre();
 		if( !empty($nombre) ){
-			$queryBuilder->andWhere("c.nombre like '%$nombre%'");
+			
+			LikeWrapper::wrapp($queryBuilder, "c.nombre", $nombre);
+			//$queryBuilder->andWhere("c.nombre like '%$nombre%'");
 		}
 
 		$nombreEq = $criteria->getNombreEqual();

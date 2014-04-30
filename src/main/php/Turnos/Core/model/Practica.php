@@ -174,5 +174,18 @@ class Practica extends Entity {
 	{
 	    $this->clienteObraSocial = $clienteObraSocial;
 	}
+	
+	public function getPlanObraSocial()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getPlanObraSocial();
+	}
+
+	public function setPlanObraSocial($planObraSocial)
+	{
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+	    $this->clienteObraSocial->setPlanObraSocial($planObraSocial);
+	}
 }
 ?>

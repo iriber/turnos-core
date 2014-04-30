@@ -1,6 +1,10 @@
 <?php
 namespace Turnos\Core\service\impl;
 
+use Turnos\Core\model\Turno;
+
+use Turnos\Core\model\ClienteObraSocial;
+
 use Turnos\Core\criteria\PracticaCriteria;
 
 use Turnos\Core\service\ServiceFactory;
@@ -100,33 +104,33 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 	 */
 	public function add($entity){
 
-
-		//$this->validateOnAdd( $entity );
-			
-		//si el turno tiene obra social asignada, actualizamos la obra social del cliente.
+		$tipoAfiliado = $entity->getTipoAfiliado();
+		if(empty($tipoAfiliado) || $tipoAfiliado < 0)
+			$entity->setTipoAfiliado(null);
 		
+		$nueva = $entity->getClienteObraSocial();
+		if($nueva!=null){	
+			$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+		
+			$entity->setClienteObraSocial( $cosExistente );
+		}
+		
+		//agregamos el turno.
+		parent::add($entity);
+
+		
+		//le asignamos al cliente la obra social indicada en el turno.
 		$cliente = $entity->getCliente();
 		if( $cliente!= null && $cliente->getOid()>0 ){
 		
-			$os = $entity->getObraSocial();
-			if( $os!= null && $os->getOid()>0){
-				//chequeo la obra social que tiene el cliente actualmente.
-				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
-				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
-				DAOFactory::getClienteDAO()->update( $cliente );
-				$entity->setCliente($cliente);
-				
-			}else 
-				$entity->getCliente()->setClienteObraSocial(null);
-		}else{
-			$entity->setClienteObraSocial(null);
+			$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+			$cliente->setClienteObraSocial($entity->getClienteObraSocial());
+			DAOFactory::getClienteDAO()->update( $cliente );
+			
 		}
 
 		
 		
-		//agregamos el turno.
-		parent::add($entity);
-			
 	}
 	
 	/**
@@ -380,28 +384,63 @@ class TurnoServiceImpl extends CrudService implements ITurnoService {
 	 */
 	public function update($entity){
 
-		//$this->validateOnUpdate( $entity );
+		$tipoAfiliado = $entity->getTipoAfiliado();
+		if(empty($tipoAfiliado) || $tipoAfiliado < 0)
+			$entity->setTipoAfiliado(null);
 			
-		//si el turno tiene obra social asignada, actualizamos la obra social del cliente.
-		$cliente = $entity->getCliente();
-		if( $cliente!= null && $cliente->getOid()>0 ){
+		$nueva = $entity->getClienteObraSocial();
+		if($nueva!=null){
+			$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+			$entity->setClienteObraSocial( $cosExistente );
 		
-			$os = $entity->getObraSocial();
-			if( $os!= null && $os->getOid()>0){
-				//chequeo la obra social que tiene el cliente actualmente.
-				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
-				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
-				DAOFactory::getClienteDAO()->update( $cliente );
-				$entity->setCliente($cliente);
-			}else 
-				$entity->getCliente()->setClienteObraSocial(null);
+		
+			//le asignamos al cliente la obra social indicada en el turno.
+			$cliente = $entity->getCliente();
+			if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$entity->getClienteObraSocial()->setCliente($cliente);
+			$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+			$cliente->setClienteObraSocial($entity->getClienteObraSocial());
+			DAOFactory::getClienteDAO()->update( $cliente );
 			
-		}else{
-			$entity->setClienteObraSocial(null);
+			}
 		}
 		
 		parent::update($entity);
-			
+		
+		
 	}
-	
+
+//	
+//	protected function chequearObraSocial( Turno $entity ){
+//	
+//		//busco un clienteobrasocial con los mismos datos q los del turno
+//		//si no tiene creamos uno.
+//		$cosTurno = $entity->getClienteObraSocial();
+//		$cosExistente = null;
+//		$osTurno = $cosTurno->getObraSocial();
+//		$cliente = $entity->getCliente();
+//
+//		Logger::log("buscando cliente obra social ");
+//		
+//		if($osTurno!=null && (( $cliente!= null && $cliente->getOid()>0 ))){
+//
+//			Logger::log("buscando cliente obra social " . $cliente->getOid() . " os:" . $cosTurno->getObraSocial()->getOid() . " plan:" .$cosTurno->getPlanObraSocial() . " nro:" . $cosTurno->getNroObraSocial() . " tipo:" . $cosTurno->getTipoAfiliado());
+//			$cosExistente = ServiceFactory::getClienteObraSocialService()->getByObraSocialPlan($cliente, $cosTurno->getObraSocial(), $cosTurno->getPlanObraSocial(), $cosTurno->getNroObraSocial(), $cosTurno->getTipoAfiliado() );
+//
+//			if($cosExistente!=null){ //ya existe, tomamos esta y la asignamos al turno.
+//				$entity->setClienteObraSocial($cosExistente);
+//			
+//				Logger::log("existe! " . $cosExistente->getOid()	);
+//				
+//			}else{ //no existe, asi que una vez que agregamos el turno, se la asignamos al cliente
+//				$cambioObraSocial = true;			
+//				$cosExistente = $entity->getClienteObraSocial();  
+//				Logger::log("no existe! ");
+//			}
+//		}else{
+//			$entity->setClienteObraSocial(null);
+//		}
+//		return $cosExistente;
+//	}
 }

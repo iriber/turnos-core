@@ -1,6 +1,10 @@
 <?php
 namespace Turnos\Core\service;
 
+use Turnos\Core\service\impl\ClienteObraSocialServiceImpl;
+
+use Turnos\Core\service\impl\PlanObraSocialServiceImpl;
+
 use Turnos\Core\service\impl\StatsServiceImpl;
 
 use Turnos\Core\service\impl\ResumenHistoriaClinicaServiceImpl;
@@ -130,4 +134,20 @@ class ServiceFactory {
 	
 		return new StatsServiceImpl();	
 	}		
+	
+	/**
+	 * @return IPlanObraSocialService
+	 */
+	public static function getPlanObraSocialService(){
+	
+		return new PlanObraSocialServiceImpl();	
+	}
+
+	/**
+	 * @return IClienteObraSocialService
+	 */
+	public static function getClienteObraSocialService(){
+	
+		return new ClienteObraSocialServiceImpl();	
+	}
 }

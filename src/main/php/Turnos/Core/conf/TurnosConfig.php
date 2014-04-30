@@ -98,7 +98,7 @@ class TurnosConfig {
 	
 		Logger::configure( $xml );
 		
-		Logger::log("Logger turnos core configurado!");
+		//Logger::log("Logger turnos core configurado!");
 		
 	}
 	

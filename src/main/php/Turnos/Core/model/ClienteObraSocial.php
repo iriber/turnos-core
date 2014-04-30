@@ -47,7 +47,11 @@ class ClienteObraSocial extends Entity {
 	 **/
 	private $tipoAfiliado;
 
-	//TODO plan?		
+	/**
+     * @ManyToOne(targetEntity="PlanObraSocial",cascade={"merge"})
+     * @JoinColumn(name="planObraSocial_oid", referencedColumnName="oid")
+     **/
+	private $planObraSocial;
 	
 	
 	public function __construct(){
@@ -94,5 +98,15 @@ class ClienteObraSocial extends Entity {
 	public function setCliente($cliente)
 	{
 	    $this->cliente = $cliente;
+	}
+
+	public function getPlanObraSocial()
+	{
+	    return $this->planObraSocial;
+	}
+
+	public function setPlanObraSocial($planObraSocial)
+	{
+	    $this->planObraSocial = $planObraSocial;
 	}
 }

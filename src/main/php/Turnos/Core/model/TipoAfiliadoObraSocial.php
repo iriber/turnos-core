@@ -24,7 +24,7 @@ class TipoAfiliadoObraSocial{
 	}
 	
 	public static function getLabel($value){
-		if(!empty($value))
+		if(array_key_exists($value, self::$items))
 		return self::$items[$value];
 		else "";
 	}

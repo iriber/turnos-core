@@ -1,6 +1,8 @@
 <?php
 namespace Turnos\Core\service\impl;
 
+use Turnos\Core\service\ServiceFactory;
+
 use Turnos\Core\criteria\PracticaCriteria;
 
 use Turnos\Core\model\Cliente;
@@ -52,29 +54,24 @@ class PracticaServiceImpl extends CrudService implements IPracticaService {
 	 */
 	public function add($entity){
 
-		//$this->validateOnAdd( $entity );
-			
-		//si tiene obra social asignada, actualizamos la obra social del cliente.
-		$cliente = $entity->getCliente();
-		if( $cliente!= null && $cliente->getOid()>0 ){
+		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
 		
-			$os = $entity->getObraSocial();
-			if( $os!= null && $os->getOid()>0){
-				//chequeo la obra social que tiene el cliente actualmente.
-				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
-				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
-				DAOFactory::getClienteDAO()->update( $cliente );
-				$entity->setCliente($cliente);
-				
-			}else 
-				$entity->getCliente()->setClienteObraSocial(null);
-		}else{
-			$entity->setClienteObraSocial(null);
-		}
+		$entity->setClienteObraSocial( $cosExistente );
 				
 		//agregamos la práctica.
 		parent::add($entity);
+
+		//le asignamos al cliente la obra social indicada en la práctica.
+		$cliente = $entity->getCliente();
+		if( $cliente!= null && $cliente->getOid()>0 ){
+		
+			$entity->getClienteObraSocial()->setCliente($cliente);
+			$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+			$cliente->setClienteObraSocial($entity->getClienteObraSocial());
+			DAOFactory::getClienteDAO()->update( $cliente );
 			
+		}
+		
 	}
 	
 	/**
@@ -85,26 +82,21 @@ class PracticaServiceImpl extends CrudService implements IPracticaService {
 	 */
 	public function update($entity){
 
-		//$this->validateOnUpdate( $entity );
-			
-		//si tiene obra social asignada, actualizamos la obra social del cliente.
+		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+		
+		$entity->setClienteObraSocial( $cosExistente );
+				
+		//le asignamos al cliente la obra social indicada en la práctica.
 		$cliente = $entity->getCliente();
 		if( $cliente!= null && $cliente->getOid()>0 ){
 		
-			$os = $entity->getObraSocial();
-			if( $os!= null && $os->getOid()>0){
-				//chequeo la obra social que tiene el cliente actualmente.
-				$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
-				$entity->setClienteObraSocial( $cliente->checkearObraSocial( $entity->getClienteObraSocial() ) );
-				DAOFactory::getClienteDAO()->update( $cliente );
-				$entity->setCliente($cliente);
-				
-			}else 
-				$entity->getCliente()->setClienteObraSocial(null);
-		}else{
-			$entity->setClienteObraSocial(null);
+			$entity->getClienteObraSocial()->setCliente($cliente);
+			$cliente = DAOFactory::getClienteDAO()->get($cliente->getOid());
+			$cliente->setClienteObraSocial($entity->getClienteObraSocial());
+			DAOFactory::getClienteDAO()->update( $cliente );
+			
 		}
-				
+		
 		//modificamos la práctica.
 		parent::update($entity);
 			

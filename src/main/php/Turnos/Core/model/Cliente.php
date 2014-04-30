@@ -395,18 +395,31 @@ class Cliente extends Entity {
 			
 		$this->clienteObraSocial->setTipoAfiliado($tipo);
 	}
+
+	public function getPlanObraSocial()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getPlanObraSocial();
+	}
+
+	public function setPlanObraSocial($planObraSocial)
+	{
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+	    $this->clienteObraSocial->setPlanObraSocial($planObraSocial);
+	}
 	
 	/**
 	 * chequea si hubo un cambio en sus datos
 	 * de obra social y los actualiza en caso de ser necesario.
 	 * @param ClienteObraSocial $clienteObraSocial
 	 */
-	public function checkearObraSocial(ClienteObraSocial $clienteObraSocial){
+	public function cambioObraSocial(ClienteObraSocial $clienteObraSocial){
 
 		$osActual = $this->getObraSocial();
 		
 		$osNueva = $clienteObraSocial->getObraSocial();
-		
+
 		$cambio =  ($osActual== null && $osNueva!=null ) || ($osActual!= null && $osNueva==null );
 			
 		$cambio = $cambio || ( $osActual->getOid() != $osNueva->getOid() );
@@ -415,11 +428,6 @@ class Cliente extends Entity {
 		
 		$cambio = $cambio || ( $clienteObraSocial->getTipoAfiliado() != $this->getTipoAfiliado() );
 		
-		if( $cambio ){
-			$clienteObraSocial->setCliente($this);
-			$this->setClienteObraSocial($clienteObraSocial);
-			return $clienteObraSocial;
-		}else 
-			return $this->getClienteObraSocial();
+		return $cambio;
 	}
 }

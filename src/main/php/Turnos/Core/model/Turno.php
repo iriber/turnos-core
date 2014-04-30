@@ -296,6 +296,7 @@ class Turno extends Entity {
 
 	public function setTipoAfiliado($tipo)
 	{
+	    if( $this->clienteObraSocial !=null )
 	    $this->clienteObraSocial->setTipoAfiliado($tipo);
 	}
 	
@@ -317,6 +318,19 @@ class Turno extends Entity {
 	public function setObservaciones($observaciones)
 	{
 	    $this->observaciones = $observaciones;
+	}
+	
+	public function getPlanObraSocial()
+	{
+	    if( $this->clienteObraSocial !=null )
+	    return $this->clienteObraSocial->getPlanObraSocial();
+	}
+
+	public function setPlanObraSocial($planObraSocial)
+	{
+		if($this->clienteObraSocial == null )
+			$this->clienteObraSocial = new ClienteObraSocial();
+	    $this->clienteObraSocial->setPlanObraSocial($planObraSocial);
 	}
 }
 ?>

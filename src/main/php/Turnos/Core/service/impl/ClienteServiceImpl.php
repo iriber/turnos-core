@@ -1,9 +1,14 @@
 <?php
 namespace Turnos\Core\service\impl;
 
+use Turnos\Core\service\ServiceFactory;
+
+use Turnos\Core\criteria\ClienteObraSocialCriteria;
+
 use Turnos\Core\criteria\ClienteCriteria;
 
 use Turnos\Core\model\TipoDocumento;
+use Turnos\Core\model\Cliente;
 
 use Turnos\Core\dao\DAOFactory, 
 	Turnos\Core\service\IClienteService;
@@ -15,6 +20,7 @@ use Cose\exception\ServiceException;
 use Cose\exception\ServiceNoResultException;
 use Cose\exception\ServiceNonUniqueResultException;
 use Cose\exception\DuplicatedEntityException;
+use Cose\exception\DAOException;
 
 /**
  * servicio para cliente
@@ -25,6 +31,40 @@ use Cose\exception\DuplicatedEntityException;
  */
 //@Cose\Security\annotation\Secured( permission='clientes' )
 class ClienteServiceImpl extends CrudService implements IClienteService {
+
+	/**
+	 * redefino el add para cambiar la obra social del
+	 * cliente.
+	 * @param $entity
+	 * @throws ServiceException
+	 */
+	public function add($entity){
+
+		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $cliente->getClienteObraSocial() );
+		
+		$entity->setClienteObraSocial( $cosExistente );
+				
+		//agregamos el cliente.
+		parent::add($entity);
+
+	}
+	
+	/**
+	 * redefino el update para cambiar la obra social del
+	 * cliente.
+	 * @param $entity
+	 * @throws ServiceException
+	 */
+	public function update($entity){
+
+		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+		
+		$entity->setClienteObraSocial( $cosExistente );
+				
+		//modificamos el cliente.
+		parent::update($entity);
+			
+	}	
 	
 	protected function getDAO(){
 		return DAOFactory::getClienteDAO();
@@ -84,8 +124,8 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 			throw new ServiceException("cliente.nroHistoriaClinica.required");
 		
 		//unicidad de la historia clínica
-		if( $this->existsByHistoriaClinica($nroHC, $entity->getOid()) )
-			throw new DuplicatedEntityException("cliente.nroHistoriaClinica.unicity");
+		//if( $this->existsByHistoriaClinica($nroHC, $entity->getOid()) )
+		//	throw new DuplicatedEntityException("cliente.nroHistoriaClinica.unicity");
 	}
 	
 	/**
@@ -201,6 +241,6 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 	}
 	
 	function validateOnDelete( $oid ){}
-	
-	
+
+
 }	
