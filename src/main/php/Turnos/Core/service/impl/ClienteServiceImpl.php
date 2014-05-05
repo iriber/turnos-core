@@ -40,7 +40,7 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 	 */
 	public function add($entity){
 
-		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $cliente->getClienteObraSocial() );
+		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
 		
 		$entity->setClienteObraSocial( $cosExistente );
 				
