@@ -39,10 +39,16 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 	 * @throws ServiceException
 	 */
 	public function add($entity){
-
-		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
 		
-		$entity->setClienteObraSocial( $cosExistente );
+		$clienteOS = $entity->getClienteObraSocial();
+		
+		if( $clienteOS != null ){
+			$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+			
+			$entity->setClienteObraSocial( $cosExistente );
+		}
+
+		
 				
 		//agregamos el cliente.
 		parent::add($entity);
@@ -57,9 +63,16 @@ class ClienteServiceImpl extends CrudService implements IClienteService {
 	 */
 	public function update($entity){
 
-		$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+		$clienteOS = $entity->getClienteObraSocial();
 		
-		$entity->setClienteObraSocial( $cosExistente );
+		if( $clienteOS != null ){
+			
+			$cosExistente = ServiceFactory::getClienteObraSocialService()->chequearObraSocial( $entity->getClienteObraSocial() );
+			
+			$entity->setClienteObraSocial( $cosExistente );
+		}
+		
+		
 				
 		//modificamos el cliente.
 		parent::update($entity);
