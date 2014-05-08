@@ -57,7 +57,7 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		
 		$obraSocial = $criteria->getObraSocialNombre();
 		if( !empty($obraSocial) ){
-			$queryBuilder->andWhere("cos.obraSocial.nombre like '%$obraSocial%'");
+			LikeWrapper::wrapp($queryBuilder, "os.nombre", $obraSocial);
 		}
 
 		$domicilio = $criteria->getDomicilio();
@@ -81,7 +81,8 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
 		$queryBuilder->select('c', 'cos')->from( $this->getClazz() , 'c')
-								->leftJoin('c.clienteObraSocial', 'cos');
+								->leftJoin('c.clienteObraSocial', 'cos')
+								->leftJoin('cos.obraSocial', 'os');
 								
 		return $queryBuilder;
 	}
@@ -91,7 +92,8 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 		$queryBuilder = $this->getEntityManager()->createQueryBuilder();
 		
 		$queryBuilder->select('count(c.oid)')->from( $this->getClazz() , 'c')
-								->leftJoin('c.clienteObraSocial', 'cos');
+								->leftJoin('c.clienteObraSocial', 'cos')
+								->leftJoin('cos.obraSocial', 'os');
 								
 		return $queryBuilder;
 	}
