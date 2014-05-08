@@ -101,7 +101,7 @@ class ClienteDoctrineDAO extends CrudDAO implements IClienteDAO{
 	protected function getFieldName($name){
 		
 		$hash = array();
-		$hash["obraSocial.nombre"] = "cos.obraSocial.nombre";
+		$hash["obraSocial.nombre"] = "os.nombre";
 		
 		if( array_key_exists($name, $hash) )
 			return $hash[$name];
