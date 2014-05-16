@@ -123,7 +123,7 @@ class ClienteObraSocialServiceImpl extends CrudService implements IClienteObraSo
 		
 	}	
 	
-	public function chequearObraSocial( ClienteObraSocial $clienteOS ){
+	public function chequearObraSocial( ClienteObraSocial $clienteOS){
 	
 		//busco un clienteobrasocial con los mismos datos
 		//si no tiene creamos una.
